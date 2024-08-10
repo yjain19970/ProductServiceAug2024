@@ -9,5 +9,9 @@ public interface ProductService {
 
     public Product getProductById(Long id);
 
-    public void createProduct();
+    public Product createProduct(String title,
+                              String description,
+                              String category,
+                              String price,
+                              String image);
 }
