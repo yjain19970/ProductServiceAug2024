@@ -2,10 +2,14 @@ package com.yash.scaler.productservice8aug.controller;
 
 import com.yash.scaler.productservice8aug.builder.ProductMapper;
 import com.yash.scaler.productservice8aug.dto.CreateProductRequestDTO;
-import com.yash.scaler.productservice8aug.dto.FakeStoreProductDTO;
+import com.yash.scaler.productservice8aug.dto.ErrorDTO;
 import com.yash.scaler.productservice8aug.dto.ProductResponseDTO;
+import com.yash.scaler.productservice8aug.exception.InvalidProductIdException;
+import com.yash.scaler.productservice8aug.exception.ProductNotFoundException;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,14 +42,17 @@ public class ProductController {
      * @param id
      */
     @GetMapping("/product/{id}")
-    public ProductResponseDTO getProductById(@PathVariable("id") Long id) {
+    public ProductResponseDTO getProductById(@PathVariable("id") Long id)
+            throws InvalidProductIdException, ProductNotFoundException {
         if (id == null) {
-            System.out.println("id cannot be null.");
-            return null;
+            throw new InvalidProductIdException("some message");
         }
 
         // S1. call to service layer.
         Product product = productService.getProductById(id);
+        if (product == null) {
+            throw new ProductNotFoundException();
+        }
         // S2. Map to ResponseDTO
         ProductResponseDTO response = mapper.convertToProductResponseDTO(product);
         // S3. Return
@@ -101,5 +108,6 @@ public class ProductController {
     public void deleteProductById(@PathVariable("id") Long id) {
 
     }
+
 
 }

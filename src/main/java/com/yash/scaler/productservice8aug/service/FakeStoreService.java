@@ -31,9 +31,8 @@ public class FakeStoreService implements ProductService {
                 getForEntity("https://fakestoreapi.com/products/" + id,
                         FakeStoreProductDTO.class);
 
-        if (response.getBody() == null) {
-            // throw exception.
-            System.out.println("Product Body is Null");
+        if (response == null || response.getBody() == null) {
+            return null;
         }
 
         // S2 Get the Body from response Entity
