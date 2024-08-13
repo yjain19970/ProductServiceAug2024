@@ -1,5 +1,6 @@
 package com.yash.scaler.productservice8aug.service;
 
+import com.yash.scaler.productservice8aug.builder.ProductMapper;
 import com.yash.scaler.productservice8aug.dto.FakeStoreProductDTO;
 import com.yash.scaler.productservice8aug.model.Category;
 import com.yash.scaler.productservice8aug.model.Product;
@@ -21,10 +22,9 @@ public class FakeStoreService implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        System.out.println("I am Inside ProductService and calling FkStore..");
         //s1. Call the FakeStore API
         ResponseEntity<FakeStoreProductDTO> response = restTemplate.
-                getForEntity("https://api.escuelajs.co/api/v1/products/" + id,
+                getForEntity("https://fakestoreapi.com/products/" + id,
                         FakeStoreProductDTO.class);
 
         if (response.getBody() == null) {
@@ -36,35 +36,44 @@ public class FakeStoreService implements ProductService {
         FakeStoreProductDTO fakeStoreProductDTO = response.getBody();
 
         //S3: Finally return the Model
-        return mapToProduct(fakeStoreProductDTO);
+        return ProductMapper.mapToProduct(fakeStoreProductDTO);
     }
 
-    private Product mapToProduct(FakeStoreProductDTO dto) {
-        Product product = new Product();
 
-        Category category = new Category();
-        category.setTitle(dto.getCategory().getTitle());
-        category.setId(dto.getCategory().getId());
-
-
-        product.setCategory(category);
-        product.setTitle(dto.getTitle());
-        product.setId(dto.getId());
-        product.setImageURL(dto.getImages().get(0));
-        product.setPrice(Double.valueOf(dto.getPrice()));
-        product.setDescription(dto.getDescription());
-        return product;
-    }
-
+    /**
+     * Steps:
+     * <p>
+     * 1. Create Object to call FakeStoreAPI
+     * 2. Call FakeStore API
+     * 3. Get response and convert that to FakeStoreResponse
+     * 4. Map it to our Model
+     * 5. Return Model from serviceLayer
+     *
+     * @param title
+     * @param description
+     * @param category
+     * @param price
+     * @param image
+     * @return
+     */
     @Override
     public Product createProduct(String title, String description, String category, String price, String image) {
-
-        // 1. Call the fakestore API requestDTO
+        // S1. Create FakeStore DTO Object
         FakeStoreProductDTO requestBody = new FakeStoreProductDTO();
+        requestBody.setTitle(title);
+        requestBody.setDescription(description);
+        requestBody.setImage(image);
+        requestBody.setPrice(String.valueOf(price));
+
+        // S2. Call FakeStore API
+        FakeStoreProductDTO response = restTemplate.postForObject("https://fakestoreapi.com/products",
+                requestBody, FakeStoreProductDTO.class);
 
 
-        restTemplate.postForObject("", requestBody, FakeStoreProductDTO.class);
+        // S3. Get ProductModel
+        Product product = ProductMapper.mapToProduct(response);
 
-        return null;
+        // S4. Return Product
+        return product;
     }
 }
