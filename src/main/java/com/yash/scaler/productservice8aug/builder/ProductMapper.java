@@ -4,7 +4,9 @@ import com.yash.scaler.productservice8aug.dto.FakeStoreProductDTO;
 import com.yash.scaler.productservice8aug.dto.ProductResponseDTO;
 import com.yash.scaler.productservice8aug.model.Category;
 import com.yash.scaler.productservice8aug.model.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductMapper {
     /**
      * Converts the Incoming Object to ProductResponseDTO
@@ -12,7 +14,7 @@ public class ProductMapper {
      * @param product
      * @return
      */
-    public static ProductResponseDTO convertToProductResponseDTO(Product product) {
+    public ProductResponseDTO convertToProductResponseDTO(Product product) {
         ProductResponseDTO dto = new ProductResponseDTO();
         dto.setCategory(product.getCategory());
         dto.setDescription(product.getDescription());
@@ -27,7 +29,7 @@ public class ProductMapper {
         return dto;
     }
 
-    public static Product mapToProduct(FakeStoreProductDTO dto) {
+    public Product mapToProduct(FakeStoreProductDTO dto) {
         Product product = new Product();
 
         //set category

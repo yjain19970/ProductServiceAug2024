@@ -1,19 +1,26 @@
 package com.yash.scaler.productservice8aug.controller;
 
 import com.yash.scaler.productservice8aug.builder.ProductMapper;
+import com.yash.scaler.productservice8aug.dto.CreateProductRequestDTO;
 import com.yash.scaler.productservice8aug.dto.FakeStoreProductDTO;
 import com.yash.scaler.productservice8aug.dto.ProductResponseDTO;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class ProductController {
     private ProductService productService;
+    private ProductMapper mapper;
+
 
     // Injecting ProductService in Controller
-    public ProductController(ProductService svc) {
+    public ProductController(ProductService svc, ProductMapper mapper) {
         this.productService = svc;
+        this.mapper = mapper;
     }
 
 
@@ -40,7 +47,7 @@ public class ProductController {
         // S1. call to service layer.
         Product product = productService.getProductById(id);
         // S2. Map to ResponseDTO
-        ProductResponseDTO response = ProductMapper.convertToProductResponseDTO(product);
+        ProductResponseDTO response = mapper.convertToProductResponseDTO(product);
         // S3. Return
         return response;
     }
@@ -57,24 +64,36 @@ public class ProductController {
      * @return
      */
     @PostMapping("/product")
-    public ProductResponseDTO createProduct(@RequestBody FakeStoreProductDTO dto) {
+    public ProductResponseDTO createProduct(@RequestBody CreateProductRequestDTO dto) {
         // S1. Validate -- Add the validation by yourself.
 
         // S2. Call ProductService
         Product productResp = productService.createProduct(dto.getTitle(),
                 dto.getDescription(),
                 dto.getImage(),
-                dto.getPrice(), dto.getCategory());
+                dto.getPrice(),
+                dto.getCategory());
 
 
         // S3. convert this to DTO and return.
-
-        return ProductMapper.convertToProductResponseDTO(productResp);
+        return mapper.convertToProductResponseDTO(productResp);
     }
 
     @GetMapping("/products")
-    public void getAllProducts() {
-        // YOU WILL IMPLEMENT
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> productList = productService.getAllProduct();
+        if (productList == null || productList.size() == 0) {
+            return null;
+        }
+
+        List<ProductResponseDTO> response = new ArrayList<>();
+
+        // converting models to dtolist
+        for (Product p : productList) {
+            response.add(mapper.convertToProductResponseDTO(p));
+        }
+
+        return response;
     }
 
 
