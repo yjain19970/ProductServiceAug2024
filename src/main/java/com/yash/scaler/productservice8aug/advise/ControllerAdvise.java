@@ -28,11 +28,4 @@ public class ControllerAdvise {
         return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDTO> handleException(Exception exception) {
-        ErrorDTO dto = new ErrorDTO();
-        dto.setCode("some_status_code"); // this is not HTTP status code.
-        dto.setMessage("Product Not Found..");
-        return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
-    }
 }
