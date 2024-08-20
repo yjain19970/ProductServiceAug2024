@@ -2,14 +2,12 @@ package com.yash.scaler.productservice8aug.controller;
 
 import com.yash.scaler.productservice8aug.builder.ProductMapper;
 import com.yash.scaler.productservice8aug.dto.CreateProductRequestDTO;
-import com.yash.scaler.productservice8aug.dto.ErrorDTO;
 import com.yash.scaler.productservice8aug.dto.ProductResponseDTO;
 import com.yash.scaler.productservice8aug.exception.InvalidProductIdException;
 import com.yash.scaler.productservice8aug.exception.ProductNotFoundException;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.service.ProductService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,7 +20,7 @@ public class ProductController {
 
 
     // Injecting ProductService in Controller
-    public ProductController(ProductService svc, ProductMapper mapper) {
+    public ProductController(@Qualifier("selfProductService") ProductService svc, ProductMapper mapper) {
         this.productService = svc;
         this.mapper = mapper;
     }
@@ -42,7 +40,7 @@ public class ProductController {
      * @param id
      */
     @GetMapping("/product/{id}")
-    public ProductResponseDTO getProductById(@PathVariable("id") Long id)
+    public ProductResponseDTO getProductById(@PathVariable("id") Integer id)
             throws InvalidProductIdException, ProductNotFoundException {
         if (id == null) {
             throw new InvalidProductIdException("some message");
