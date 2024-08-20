@@ -1,11 +1,15 @@
 package com.yash.scaler.productservice8aug.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,4 +17,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Category extends BaseModel implements Serializable {
     private String title;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.REMOVE})
+    List<Product> products; // CATEGORY <> PRODUCT
 }
+
+
+
+
