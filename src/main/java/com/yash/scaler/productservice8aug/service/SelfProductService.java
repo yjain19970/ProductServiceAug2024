@@ -4,6 +4,7 @@ import com.yash.scaler.productservice8aug.model.Category;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.repository.CategoryRepo;
 import com.yash.scaler.productservice8aug.repository.ProductRepo;
+import com.yash.scaler.productservice8aug.repository.projection.ProductProjection;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -68,5 +69,12 @@ public class SelfProductService implements ProductService {
     @Override
     public List<Product> getAllProduct() {
         return null;
+    }
+
+
+    public Product getProductByIdAndTitle(Integer id, String title) {
+        Product product = productRepo.getProductFromIdAndTitle(id, title);
+        ProductProjection productProjection = productRepo.getTitleAndPriceProductFromId(id);
+        return product;
     }
 }
