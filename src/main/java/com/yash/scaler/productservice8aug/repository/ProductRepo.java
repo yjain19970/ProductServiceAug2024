@@ -20,7 +20,7 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     Product save(Product p);
 
     // SYNTAX FOR JOINS USING JPA METHODS
-    List<Product> findAllByCategory_NameEquals(String name);
+    List<Product> findAllByCategory_TitleEquals(String title);
 
     /**
      * Get a Product from id and a title.
@@ -33,10 +33,10 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
      * <p>
      * Return something called as Projection
      */
-    @Query("select p.id, p.title, p.price from Product p where p.id = :id")
+    @Query("select p.id as id, p.title as title, p.price as price from Product p where p.id = :id")
     ProductProjection getTitleAndPriceProductFromId(@Param("id") Integer id);
 
-    @Query("select p.id,  p.price from Product p where p.title = :title")
+    @Query("select p.id as id,  p.price as price from Product p where p.title = :title")
     List<ProductProjection> getTitleAndPriceProductFromTitle(@Param("title") String title);
 
 }
