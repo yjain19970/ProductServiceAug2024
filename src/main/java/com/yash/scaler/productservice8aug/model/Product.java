@@ -20,6 +20,7 @@ public class Product extends BaseModel implements Serializable {
     private String description;
     private double price;
     private String imageURL;
+    private String productAddress;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     private Category category;
