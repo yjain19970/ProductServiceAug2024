@@ -39,4 +39,19 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Query("select p.id as id,  p.price as price from Product p where p.title = :title")
     List<ProductProjection> getTitleAndPriceProductFromTitle(@Param("title") String title);
 
+    /**
+     * Way-1 Create your own method, (HQL) query which supports Pagination
+     * This is your assignment
+     */
+
+
+    /*
+
+        Way2: Make use of existing library/
+        This is already supported.. woohoo!!
+     */
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.yash.scaler.productservice8aug.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -23,5 +24,6 @@ public class Product extends BaseModel implements Serializable {
     private String productAddress;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JsonIgnore
     private Category category;
 }

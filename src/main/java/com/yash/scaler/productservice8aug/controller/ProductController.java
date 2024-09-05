@@ -8,6 +8,8 @@ import com.yash.scaler.productservice8aug.exception.ProductNotFoundException;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -105,6 +107,15 @@ public class ProductController {
     @DeleteMapping("/product/{id}")
     public void deleteProductById(@PathVariable("id") Long id) {
 
+    }
+
+    @GetMapping("/products/{pageNo}/{pageSize}")
+    public ResponseEntity<Page<Product>> getPaginatedProduct(@PathVariable("pageNo") Integer pageNo,
+                                                             @PathVariable("pageSize") Integer pageSize) {
+
+        Page<Product> products = productService.getPaginatedProducts(pageNo, pageSize);
+        System.out.println("Received Products : " + products);
+        return ResponseEntity.ok(products); // status httpOk : 200
     }
 
 

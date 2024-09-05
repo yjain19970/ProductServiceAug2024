@@ -1,6 +1,7 @@
 package com.yash.scaler.productservice8aug.service;
 
 import com.yash.scaler.productservice8aug.model.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ProductService {
                                  String image);
 
     public List<Product> getAllProduct();
+
+    public Page<Product> getPaginatedProducts(int page, int size);
 }

@@ -5,6 +5,10 @@ import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.repository.CategoryRepo;
 import com.yash.scaler.productservice8aug.repository.ProductRepo;
 import com.yash.scaler.productservice8aug.repository.projection.ProductProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -71,6 +75,16 @@ public class SelfProductService implements ProductService {
         return null;
     }
 
+    @Override
+    public Page<Product> getPaginatedProducts(int pageNo, int pageSize) {
+        String sortBy = "name";
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, sortBy);
+
+        Page<Product> productPage = productRepo.findAll(pageable);
+        return productPage;
+    }
+
 
     public Product getProductByIdAndTitle(Integer id, String title) {
         Product product = productRepo.getProductFromIdAndTitle(id, title);
@@ -78,3 +92,8 @@ public class SelfProductService implements ProductService {
         return product;
     }
 }
+
+/**
+ * detached entity passed to persist:
+ * com.example.productservice.model.Category.did you get to know what would be the error
+ */
