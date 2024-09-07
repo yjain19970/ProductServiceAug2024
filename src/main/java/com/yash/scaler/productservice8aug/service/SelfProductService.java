@@ -86,8 +86,9 @@ public class SelfProductService implements ProductService {
     }
 
 
-    public Product getProductByIdAndTitle(Integer id, String title) {
-        Product product = productRepo.getProductFromIdAndTitle(id, title);
+    @Override
+    public Product getProductByIdAndTitle(Integer id) {
+        Product product = productRepo.getProductFromIdAndTitle(id);
         ProductProjection productProjection = productRepo.getTitleAndPriceProductFromId(id);
         return product;
     }

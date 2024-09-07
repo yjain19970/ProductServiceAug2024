@@ -75,7 +75,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/product")
-    @CachePut(value = "product", condition = "#result.id !=null",key = "#result.id")
+    @CachePut(value = "product", condition = "#result.id !=null", key = "#result.id")
     public ProductResponseDTO createProduct(@RequestBody CreateProductRequestDTO dto) {
         // S1. Validate -- Add the validation by yourself.
 
@@ -90,6 +90,16 @@ public class ProductController {
         // S3. convert this to DTO and return.
         ProductResponseDTO responseDTO = mapper.convertToProductResponseDTO(productResp);
         return responseDTO;
+    }
+
+    @GetMapping("/product/id/title")
+    public ProductResponseDTO getByIDAndTitle() {
+        //String title = "A new product for Phone-3";
+        Integer id = 502;
+        Product product = productService.getProductByIdAndTitle(id);
+        System.out.println("Output: "+ product);
+
+        return mapper.convertToProductResponseDTO(product);
     }
 
     @GetMapping("/products")

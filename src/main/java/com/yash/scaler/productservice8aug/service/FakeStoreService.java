@@ -109,4 +109,9 @@ public class FakeStoreService implements ProductService {
     public Page<Product> getPaginatedProducts(int page, int size) {
         return null;
     }
+
+    @Override
+    public Product getProductByIdAndTitle(Integer id) {
+        return null;
+    }
 }

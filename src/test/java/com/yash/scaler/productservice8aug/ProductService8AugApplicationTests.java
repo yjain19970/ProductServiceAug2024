@@ -1,6 +1,7 @@
 package com.yash.scaler.productservice8aug;
 
 import com.yash.scaler.productservice8aug.model.Category;
+import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.repository.CategoryRepo;
 import com.yash.scaler.productservice8aug.repository.ProductRepo;
 import com.yash.scaler.productservice8aug.repository.projection.ProductProjection;
@@ -25,12 +26,9 @@ class ProductService8AugApplicationTests {
 //                getTitleAndPriceProductFromTitle("Test");
 //        System.out.println(pros.get(0).getPrice());
 
-        Category cat = catRepository.findByTitle("First Cat");
-        System.out.println(cat);
 
-        System.out.println("Doing getter...");
-        cat.getProducts();
-        System.out.println(cat);
+        Product p = productRepository.getProductFromIdAndTitle(502);
+        System.out.println(p.getTitle());
     }
 
 }

@@ -25,8 +25,8 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     /**
      * Get a Product from id and a title.
      */
-    @Query("select p from Product p where p.id = :id and p.title = :title")
-    Product getProductFromIdAndTitle(@Param("id") Integer id, @Param("title") String title);
+    @Query("select p from Product p where p.id = :id")
+    Product getProductFromIdAndTitle(@Param("id") Integer id);
 
     /**
      * Get Title and Id

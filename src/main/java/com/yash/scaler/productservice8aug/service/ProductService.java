@@ -21,4 +21,5 @@ public interface ProductService {
     public List<Product> getAllProduct();
 
     public Page<Product> getPaginatedProducts(int page, int size);
+    Product getProductByIdAndTitle(Integer id);
 }
