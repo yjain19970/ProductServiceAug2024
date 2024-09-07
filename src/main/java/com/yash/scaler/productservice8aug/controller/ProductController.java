@@ -8,6 +8,9 @@ import com.yash.scaler.productservice8aug.exception.ProductNotFoundException;
 import com.yash.scaler.productservice8aug.model.Product;
 import com.yash.scaler.productservice8aug.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +45,7 @@ public class ProductController {
      * @param id
      */
     @GetMapping("/product/{id}")
+    @Cacheable(value = "product", key = "#id")
     public ProductResponseDTO getProductById(@PathVariable("id") Integer id)
             throws InvalidProductIdException, ProductNotFoundException {
         if (id == null) {
@@ -71,6 +75,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/product")
+    @CachePut(value = "product", condition = "#result.id !=null",key = "#result.id")
     public ProductResponseDTO createProduct(@RequestBody CreateProductRequestDTO dto) {
         // S1. Validate -- Add the validation by yourself.
 
@@ -83,7 +88,8 @@ public class ProductController {
 
 
         // S3. convert this to DTO and return.
-        return mapper.convertToProductResponseDTO(productResp);
+        ProductResponseDTO responseDTO = mapper.convertToProductResponseDTO(productResp);
+        return responseDTO;
     }
 
     @GetMapping("/products")
@@ -105,6 +111,7 @@ public class ProductController {
 
 
     @DeleteMapping("/product/{id}")
+    @CacheEvict(value = "product", key = "#id")
     public void deleteProductById(@PathVariable("id") Long id) {
 
     }

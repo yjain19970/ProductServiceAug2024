@@ -4,10 +4,12 @@ import com.yash.scaler.productservice8aug.model.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class ProductResponseDTO {
-    private Integer id;
+public class ProductResponseDTO implements Serializable {
+    public Integer id;
     private String title;
     private String description;
     private double price;
